@@ -1,27 +1,17 @@
-import { db } from "../index.js";
+import mongoose from 'mongoose';
 
-export const Usermodel = {
-    async findByEmail(email) {
-        const [rows] = await db.execute(
-            'SELECT * FROM userlogin WHERE email = ?',
-            [email]
-        );
-        return rows[0];
+const userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
     },
-
-    async create(email, otp) {
-        const [result] = await db.execute(
-            'INSERT INTO userlogin (email, otp) VALUES (?, ?)',
-            [email, otp]
-        );
-        return result;
-    },
- 
-    async update(email, otp){
-        const [result] = await db.execute(
-            'UPDATE userlogin SET otp = ? WHERE email = ?',
-            [otp, email]
-        );
-        return result;
+    otp: {
+        type: String,
+        required: true
     }
-}
+});
+
+const User = mongoose.model("User", userSchema);
+
+export default User;

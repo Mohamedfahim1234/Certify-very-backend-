@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { signupController } from "../controller/officer/signup.js";
-import { loginController } from "../controller/officer/login.js";
+import { signupController } from "../controller/officer/auth/signup.js";
+import { loginController } from "../controller/officer/auth/login.js";
 
 const Officerouter = Router();
 

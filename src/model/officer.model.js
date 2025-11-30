@@ -1,19 +1,25 @@
-import { db } from "../index.js";
+import mongoose from "mongoose";
 
-export const Officermodel = {
-    async findByEmail(email) {
-        const [rows] = await db.execute(
-            'SELECT * FROM officerlogin WHERE email = ?',
-            [email]
-        );
-        return rows[0];
+const officerSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true
     },
-
-    async create(username, email, password, department) {
-       const [result] = await db.execute(
-      'INSERT INTO officerlogin (username, email, password, department) VALUES (?, ?, ?, ?)',
-       [username, email, password, department]
-    );
-    return result;
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    department: {
+        type: String,
+        required: true
     }
-}
+});
+
+const Officer = mongoose.model("Officer", officerSchema);
+
+export default Officer;

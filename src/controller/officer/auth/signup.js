@@ -1,4 +1,4 @@
-import { Officermodel } from '../../model/officer.model.js';
+import Officer from '../../../model/officer.model.js';
 import bcrypt from 'bcrypt';
 
 export const signupController = async (req, res) => {
@@ -21,14 +21,14 @@ export const signupController = async (req, res) => {
             return res.status(400).json({ message: 'Department is required' });
         }
 
-        const existingUser = await Officermodel.findByEmail(email);
+        const existingUser = await Officer.findOne({ email });
         if (existingUser) {
             return res.status(409).json({ message: 'User already exists' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = await Officermodel.create(username, email, hashedPassword, department);
+        const user = await Officer.create({ username, email, password: hashedPassword, department });
 
         return res.status(201).json({ message: 'User created successfully', user });
     } catch (error) {
