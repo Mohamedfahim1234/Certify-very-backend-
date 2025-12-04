@@ -20,12 +20,12 @@ export const OTPController = async (req, res) => {
         await sendMail(email,`Your OTP for Login`,`<h3>Your OTP is <b>${otp}</b></h3>`,).catch(()=>res.status(401).json({message:'Error in sending mail'}));
 
         const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            await User.updateOne({ email }, { otp });
-            return res.status(200).json({ message: 'OTP resent successfully' });
+        if (!existingUser) {
+            return res.status(401).json({message: 'User not found'});
         }
 
-        const user = await User.create({ email, otp });
+        const user = await User.updateOne({ email }, { otp });
+
         return res.status(201).json({ message: 'OTP sent successfully', user });
     } catch (error) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });

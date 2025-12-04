@@ -3,9 +3,11 @@ import mongoose from 'mongoose';
 import router from './routes/user.route.js';
 import dotenv from 'dotenv';
 import Officerouter from './routes/officer.route.js';
+import cors from 'cors';
 dotenv.config();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const port = process.env.PORT || 8000;
@@ -24,7 +26,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.use('/image', express.static('uploads'));
+app.use('/uploads', express.static('uploads'));
 app.use('/user',router);
 app.use('/officer',Officerouter);
 

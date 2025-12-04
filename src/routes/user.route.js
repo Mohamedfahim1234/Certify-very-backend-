@@ -2,8 +2,10 @@ import { Router } from "express";
 import multer from "multer";
 import { OTPController } from "../controller/user/auth/otp.js";
 import { loginController } from "../controller/user/auth/login.js";
+import { signupController } from "../controller/user/auth/signup.js";
 import { authenticateUser } from "../middleware/user.middleware.js";
-import { applyCertificateController } from "../controller/user/certificate-apply.js";
+import { applyCertificateController, getUserCertificatesController } from "../controller/user/certificate-apply.js";
+import { getUserProfileController, updateUserProfileController } from "../controller/user/profile.js";
 
 const router = Router();
 
@@ -29,6 +31,10 @@ const upload = multer({ storage: storage, fileFilter: filefilter });
 
 router.post('/request-otp', OTPController);
 router.post('/login', loginController);
-router.post('/apply-certificate', authenticateUser, upload.fields([{ name: 'aadharUrl', maxCount: 1 }, { name: 'documentUrl', maxCount: 1 }]), applyCertificateController);
+router.post('/signup', signupController);
+router.get('/profile', authenticateUser, getUserProfileController);
+router.put('/profile/update', authenticateUser, updateUserProfileController);
+router.post('/apply-certificate', authenticateUser, upload.array('documentUrl', ), applyCertificateController);
+router.get('/certificates', authenticateUser, getUserCertificatesController);
 
 export default router;

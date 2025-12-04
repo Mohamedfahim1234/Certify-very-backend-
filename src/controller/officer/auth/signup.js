@@ -2,7 +2,7 @@ import Officer from '../../../model/officer.model.js';
 import bcrypt from 'bcrypt';
 
 export const signupController = async (req, res) => {
-    const { username, email, password, department } = req.body;
+    const { username, email, password, department, role } = req.body;
 
     try {
         if(!username){
@@ -28,7 +28,7 @@ export const signupController = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = await Officer.create({ username, email, password: hashedPassword, department });
+        const user = await Officer.create({ username, email, password: hashedPassword, department, role: 'officer' });
 
         return res.status(201).json({ message: 'User created successfully', user });
     } catch (error) {
