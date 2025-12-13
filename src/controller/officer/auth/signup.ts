@@ -1,7 +1,8 @@
+import { Request, Response } from 'express';
 import Officer from '../../../model/officer.model.js';
 import bcrypt from 'bcrypt';
 
-export const signupController = async (req, res) => {
+export const signupController = async (req: Request, res: Response) => {
     const { username, email, password, department, role } = req.body;
 
     try {
@@ -31,7 +32,7 @@ export const signupController = async (req, res) => {
         const user = await Officer.create({ username, email, password: hashedPassword, department, role: 'officer' });
 
         return res.status(201).json({ message: 'User created successfully', user });
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 }

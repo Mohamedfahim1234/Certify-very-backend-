@@ -1,8 +1,9 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import router from './routes/user.route.js';
+import { ChromaClient } from 'chromadb';
+import router from './routes/user.route';
 import dotenv from 'dotenv';
-import Officerouter from './routes/officer.route.js';
+import Officerouter from './routes/officer.route';
 import cors from 'cors';
 dotenv.config();
 
@@ -18,7 +19,7 @@ if (!mongoURI) {
     process.exit(1);
 }
 
-mongoose.connect(mongoURI).then(() => console.log('Database connected successfully')).catch(err => console.error('Database connection error:', err));
+mongoose.connect(mongoURI).then(() => console.log('Database connected successfully')).catch((err: any) => console.error('Database connection error:', err));
 
 console.log('Database pool created successfully');
 

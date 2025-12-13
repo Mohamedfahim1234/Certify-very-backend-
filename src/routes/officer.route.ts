@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { signupController } from "../controller/officer/auth/signup.js";
-import { loginController } from "../controller/officer/auth/login.js";
-import { authenticateOffice } from "../middleware/officer.middleware.js";
-import { getAllCertificatesController, updateCertificateStatusController } from "../controller/officer/certificate.js";
-import { getOfficerProfileController, updateOfficerProfileController } from "../controller/officer/profile.js";
+import { signupController } from "../controller/officer/auth/signup";
+import { loginController } from "../controller/officer/auth/login";
+import { authenticateOffice } from "../middleware/officer.middleware";
+import { getAllCertificatesController, updateCertificateStatusController } from "../controller/officer/certificate";
+import { getOfficerProfileController, updateOfficerProfileController } from "../controller/officer/profile";
 
 const Officerouter = Router();
 

@@ -1,13 +1,14 @@
-import User from '../../../model/user.model.js';
+import { Request, Response } from 'express';
+import User from '../../../model/user.model';
 import crypto from 'crypto';
-import { sendMail } from "../mail.js";
+import { sendMail } from "../mail";
 
 function generateOTP() {
     const otp = crypto.randomInt(0, Math.pow(10, 6)).toString().padStart(6, '0');
     return otp;
 }
 
-export const OTPController = async (req, res) => {
+export const OTPController = async (req: Request, res: Response) => {
     const { email } = req.body;
 
     try {
@@ -27,7 +28,7 @@ export const OTPController = async (req, res) => {
         const user = await User.updateOne({ email }, { otp });
 
         return res.status(201).json({ message: 'OTP sent successfully', user });
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 }
