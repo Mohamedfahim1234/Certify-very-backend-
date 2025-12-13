@@ -1,8 +1,9 @@
+import { Request, Response } from 'express';
 import Officer from '../../../model/officer.model.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-export const loginController = async (req, res) => {
+export const loginController = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try{
@@ -25,10 +26,10 @@ export const loginController = async (req, res) => {
     }
 
     const token = jwt.sign(
-        { id: user.id, email: user.email },process.env.SECRET_KEY_OFFICER,{ expiresIn: '1h' });
+        { id: user._id, email: user.email },process.env.SECRET_KEY_OFFICER,{ expiresIn: '1h' });
     
     res.status(200).json({ message: 'Login successful', token, user});
-   }catch(err){
+   }catch(err: any){
     res.status(500).json({ message: 'Internal server error', error: err.message });
    }
 }

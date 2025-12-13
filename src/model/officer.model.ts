@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 
-const officerSchema = new mongoose.Schema({
+export interface IOfficer extends mongoose.Document {
+    username: string;
+    email: string;
+    password: string;
+    department: string;
+    role: string;
+};
+
+const officerSchema = new mongoose.Schema<IOfficer>({
     username: {
         type: String,
         required: true
@@ -24,6 +32,6 @@ const officerSchema = new mongoose.Schema({
     }
 });
 
-const Officer = mongoose.model("Officer", officerSchema);
+const Officer = mongoose.model<IOfficer>("Officer", officerSchema);
 
 export default Officer;

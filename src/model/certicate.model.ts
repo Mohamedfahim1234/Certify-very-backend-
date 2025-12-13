@@ -1,6 +1,24 @@
 import mongoose from 'mongoose';
 
-const certificateSchema = new mongoose.Schema({
+export interface ICertificate extends mongoose.Document {
+    userId: mongoose.Types.ObjectId;
+    applicantName: string;
+    certificateType: string;
+    documentUrl: string[];
+    status: 'pending' | 'approved' | 'rejected';
+    appliedAt: Date;
+    approvalHistory: {
+        level: string;
+        action: 'approved' | 'rejected';
+        officer: string;
+        timestamp: Date;
+        remarks?: string;
+    }[];
+    createdAt: Date;
+    updatedAt: Date;
+};
+
+const certificateSchema = new mongoose.Schema<ICertificate>({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     applicantName: { type: String, required: true },
     certificateType: { type: String, required: true },
@@ -18,6 +36,6 @@ const certificateSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now }
 });
 
-const Certificate = mongoose.model('Certificate', certificateSchema);
+const Certificate = mongoose.model<ICertificate>('Certificate', certificateSchema);
 
 export default Certificate;

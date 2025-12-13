@@ -1,11 +1,12 @@
 import { Router } from "express";
 import multer from "multer";
-import { OTPController } from "../controller/user/auth/otp.js";
-import { loginController } from "../controller/user/auth/login.js";
-import { signupController } from "../controller/user/auth/signup.js";
-import { authenticateUser } from "../middleware/user.middleware.js";
-import { applyCertificateController, getUserCertificatesController } from "../controller/user/certificate-apply.js";
-import { getUserProfileController, updateUserProfileController } from "../controller/user/profile.js";
+import { OTPController } from "../controller/user/auth/otp";
+import { loginController } from "../controller/user/auth/login";
+import { signupController } from "../controller/user/auth/signup";
+import { authenticateUser } from "../middleware/user.middleware";
+import { applyCertificateController, getUserCertificatesController } from "../controller/user/certificate-apply";
+import { getUserProfileController, updateUserProfileController } from "../controller/user/profile";
+import { ask, ingest } from "../controller/ai/rag";
 
 const router = Router();
 
@@ -18,16 +19,17 @@ const storage = multer.diskStorage({
     }
 });
 
-const filefilter = (req, file, cb) => {
+const upload = multer({ 
+    storage,
+     fileFilter: (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error('Only jpeg, jpg, png, pdf files are allowed'), false);
+        return cb(new Error('Only JPEG, PNG images and PDF files are allowed'));
     }
-};
-
-const upload = multer({ storage: storage, fileFilter: filefilter });
+}
+});
 
 router.post('/request-otp', OTPController);
 router.post('/login', loginController);
@@ -36,5 +38,7 @@ router.get('/profile', authenticateUser, getUserProfileController);
 router.put('/profile/update', authenticateUser, updateUserProfileController);
 router.post('/apply-certificate', authenticateUser, upload.array('documentUrl', ), applyCertificateController);
 router.get('/certificates', authenticateUser, getUserCertificatesController);
+router.post('/ingest',authenticateUser, ingest);
+router.post('/ask', authenticateUser, ask);
 
 export default router;
