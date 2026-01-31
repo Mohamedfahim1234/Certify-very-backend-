@@ -1,10 +1,11 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { ChromaClient } from 'chromadb';
 import router from './routes/user.route';
 import dotenv from 'dotenv';
 import Officerouter from './routes/officer.route';
 import cors from 'cors';
+import seniorRouter from './routes/senior.officer.route';
+import higherRouter from './routes/higher.officer.route';
 dotenv.config();
 
 const app = express();
@@ -30,6 +31,8 @@ app.get('/', (req, res) => {
 app.use('/uploads', express.static('uploads'));
 app.use('/user',router);
 app.use('/officer',Officerouter);
+app.use('/senior-officer', seniorRouter);
+app.use('/higher-officer', higherRouter)
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

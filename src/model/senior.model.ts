@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface IOfficer extends mongoose.Document {
+export interface ISenior extends mongoose.Document {
     username: string;
     email: string;
     password: string;
@@ -8,7 +8,7 @@ export interface IOfficer extends mongoose.Document {
     role: string;
 };
 
-const officerSchema = new mongoose.Schema<IOfficer>({
+const seniorSchema = new mongoose.Schema<ISenior>({
     username: {
         type: String,
         required: true
@@ -31,6 +31,6 @@ const officerSchema = new mongoose.Schema<IOfficer>({
     }
 });
 
-const Officer = mongoose.model<IOfficer>("Officer", officerSchema);
+const Senior = mongoose.model<ISenior>("Senior", seniorSchema);
 
-export default Officer;
+export default Senior;

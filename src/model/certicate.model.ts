@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ref } from 'process';
 
 export interface ICertificate extends mongoose.Document {
     userId: mongoose.Types.ObjectId;
@@ -10,7 +11,21 @@ export interface ICertificate extends mongoose.Document {
     approvalHistory: {
         level: string;
         action: 'approved' | 'rejected';
-        officer: string;
+        officer: { type: mongoose.Schema.Types.ObjectId, ref: 'Officer' };
+        timestamp: Date;
+        remarks?: string;
+    }[];
+    seniorapprovalhistory: {
+        level: string;
+        action: 'approved' | 'rejected';
+        officer: { type: mongoose.Schema.Types.ObjectId, ref: 'Officer' };
+        timestamp: Date;
+        remarks?: string;
+    }[];
+    higherapprovalhistory: {
+        level: string;
+        action: 'approved' | 'rejected';
+        officer: { type: mongoose.Schema.Types.ObjectId, ref: 'Officer' };
         timestamp: Date;
         remarks?: string;
     }[];
@@ -28,7 +43,21 @@ const certificateSchema = new mongoose.Schema<ICertificate>({
     approvalHistory: [{
         level: { type: String },
         action: { type: String, enum: ['approved', 'rejected'] },
-        officer: { type: String },
+        officer: { type: mongoose.Schema.Types.ObjectId, ref: 'Officer' },
+        timestamp: { type: Date },
+        remarks: { type: String }
+    }],
+    seniorapprovalhistory: [{
+        level: { type: String },
+        action: { type: String, enum: ['approved', 'rejected'] },
+        officer: { type: mongoose.Schema.Types.ObjectId, ref: 'Officer' },
+        timestamp: { type: Date },
+        remarks: { type: String }
+    }],
+    higherapprovalhistory: [{
+        level: { type: String },
+        action: { type: String, enum: ['approved', 'rejected'] },
+        officer: { type: mongoose.Schema.Types.ObjectId, ref: 'Officer' },
         timestamp: { type: Date },
         remarks: { type: String }
     }],
