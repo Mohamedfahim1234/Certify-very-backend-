@@ -6,7 +6,7 @@ import { signupController } from "../controller/user/auth/signup";
 import { authenticateUser } from "../middleware/user.middleware";
 import { applyCertificateController, getUserCertificatesController } from "../controller/user/certificate-apply";
 import { getUserProfileController, updateUserProfileController } from "../controller/user/profile";
-import { ask, ingest } from "../controller/ai/rag";
+// import { ask, ingest } from "../controller/ai/rag";
 
 const router = Router();
 
@@ -38,7 +38,7 @@ router.get('/profile', authenticateUser, getUserProfileController);
 router.put('/profile/update', authenticateUser, updateUserProfileController);
 router.post('/apply-certificate', authenticateUser, upload.array('documentUrl', ), applyCertificateController);
 router.get('/certificates', authenticateUser, getUserCertificatesController);
-router.post('/ingest',authenticateUser, ingest);
-router.post('/ask', authenticateUser, ask);
+// router.post('/ingest',authenticateUser, ingest);
+// router.post('/ask', authenticateUser, ask);
 
 export default router;
