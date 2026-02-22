@@ -5,9 +5,9 @@ import Certificate from "../../model/certicate.model.js";
 export const getAllCertificatesController = async (req: HigherAuthenticatedRequest, res: Response) => {
     try {
         console.log('Fetching certificates for higher officer');
-        const certificates = await Certificate.find({ status: 'pending', approvalHistory: { $elemMatch: { action: { $eq: 'approved' } } }, seniorapprovalhistory: { $elemMatch: { action: { $eq: 'approved' } } } });
+        const certificates = await Certificate.find({ status: { $in: ['pending', 'approved'] }, approvalHistory: { $elemMatch: { action: { $eq: 'approved' } } }, seniorapprovalhistory: { $elemMatch: { action: { $eq: 'approved' } } } });
 
-        res.status(200).json({message: 'Certificates fetched successfully', certificates });
+        res.status(200).json({ message: 'Certificates fetched successfully', certificates });
     } catch (error: any) {
         res.status(500).json({ message: 'Failed to fetch certificates', error: error.message });
     }
@@ -28,7 +28,7 @@ export const updateCertificateStatusController = async (req: HigherAuthenticated
             return res.status(400).json({ message: 'Invalid status value' });
         }
 
-        if(status === 'rejected'){
+        if (status === 'rejected') {
             await Certificate.findByIdAndUpdate(certificateId, { status: 'rejected', higherapprovalhistory: { level: 'final', action: status, officer: req.user?.id, timestamp: new Date(), remarks } });
         }
 

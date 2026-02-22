@@ -4,6 +4,7 @@ import { signupController } from '../controller/senior-officer/auth/signup';
 import { getAllCertificatesController, updateCertificateStatusController } from '../controller/senior-officer/certificate';
 import { getSeniorProfileController, updateSeniorProfileController } from '../controller/senior-officer/profile';
 import { seniorAuthMiddleware } from '../middleware/senior.middleware';
+import { forgotPasswordController } from '../controller/senior-officer/auth/forgotpassword';
 
 const seniorRouter = Router();
 
@@ -13,5 +14,6 @@ seniorRouter.get('/certificates/list', seniorAuthMiddleware, getAllCertificatesC
 seniorRouter.get('/profile', seniorAuthMiddleware, getSeniorProfileController);
 seniorRouter.put('/profile/update', seniorAuthMiddleware, updateSeniorProfileController);
 seniorRouter.put('/certificate/status/update/:certificateId', seniorAuthMiddleware, updateCertificateStatusController);
+seniorRouter.put('/forgot-password', forgotPasswordController);
 
 export default seniorRouter;

@@ -4,6 +4,7 @@ import { signupController } from "../controller/higher-officer/auth/signup";
 import { getAllCertificatesController, updateCertificateStatusController } from "../controller/higher-officer/certificate";
 import { getHigherProfileController, updateHigherProfileController } from "../controller/higher-officer/profile";
 import { higherAuthMiddleware } from "../middleware/higher.middleware";
+import { forgotPasswordController } from "../controller/higher-officer/auth/forgotpassword";
 
 const higherRouter = Router();
 
@@ -13,5 +14,6 @@ higherRouter.get('/certificates/list', higherAuthMiddleware, getAllCertificatesC
 higherRouter.get('/profile', higherAuthMiddleware, getHigherProfileController);
 higherRouter.put('/profile/update', higherAuthMiddleware, updateHigherProfileController);
 higherRouter.put('/certificate/status/update/:certificateId', higherAuthMiddleware, updateCertificateStatusController);
+higherRouter.put('/forgot-password', forgotPasswordController);
 
 export default higherRouter;
